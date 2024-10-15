@@ -12,6 +12,10 @@ jobs:
       id-token: write
 
     steps:
+      - name: lowercase github.repository
+        run: |
+          echo "LOW_REPO=${GITHUB_REPOSITORY@L}" >> ${GITHUB_ENV}
+
       - name: Checkout sources
         uses: actions/checkout@v3
 
@@ -37,4 +41,4 @@ jobs:
           file: Dockerfile
           platforms: linux/arm64, linux/amd64
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/${{ env.LOW_REPO }}:latest
