@@ -1,5 +1,7 @@
 FROM postgres:16
 
+USER root
+
 # Install OpenSSL and sudo
 RUN apt-get update && apt-get install -y openssl sudo curl
 
@@ -21,6 +23,8 @@ RUN apt-get update && apt-get install -y /tmp/package.deb
 
 # Clean up the .deb file after installation to reduce image size
 RUN rm -f /tmp/package.deb
+
+USER postgres
 
 ENTRYPOINT ["wrapper.sh"]
 CMD ["postgres", "--port=5432"]
